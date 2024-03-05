@@ -14,11 +14,17 @@ jobs:
     container: 
       image: node:16
     env:
-      MONGODB_CONNECTION_PROTOCOL: mongodb+srv
-      MONGODB_CLUSTER_ADDRESS: github-actions-env-vari.0oynqye.mongodb.net
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      MONGODB_CONNECTION_PROTOCOL: mongodb # change protocol from mongodb+srv
+      MONGODB_CLUSTER_ADDRESS: mongodb  # the same as name of the `mongodb` service
+      MONGODB_USERNAME: root # has  to be the same as in the service container
+      MONGODB_PASSWORD: example # has  to be the same as in the service container
       PORT: 8080
+    services:
+      mongodb: 
+        image: mongo # image from the DockerHub
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root # ok to use for testing, won't be published online
+          MONGO_INITDB_ROOT_PASSWORD: example # ok to use for testing, won't be published online
     steps:
       - name: Get Code
         uses: actions/checkout@v3
